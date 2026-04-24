@@ -59,7 +59,7 @@ type (
 		Notifications     NotificationsConfig     `json:"notifications"`
 		Connectors        []ConnectorConfig       `json:"connectors"`
 		Agents            AgentsConfig            `json:"llm"`
-		EvidenceDescriber EvidenceDescriberConfig `json:"evidence-describer"`
+		EvidenceAssessor EvidenceAssessmentConfig `json:"evidence-assessor"`
 		ChromeDPAddr      string                  `json:"chrome-dp-addr"`
 		SearchEndpoint    string                  `json:"search-endpoint"`
 		CustomDomains     CustomDomainsConfig     `json:"custom-domains"`

@@ -39,7 +39,7 @@ type (
 	ACMEConfig              = probodconfig.ACMEConfig
 	LLMProviderConfig       = probodconfig.LLMProviderConfig
 	LLMAgentConfig          = probodconfig.LLMAgentConfig
-	EvidenceDescriberConfig = probodconfig.EvidenceDescriberConfig
+	EvidenceAssessmentConfig = probodconfig.EvidenceAssessmentConfig
 	AgentsConfig            = probodconfig.AgentsConfig
 	MailerConfig            = probodconfig.MailerConfig
 	SMTPConfig              = probodconfig.SMTPConfig
