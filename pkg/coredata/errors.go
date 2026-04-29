@@ -16,6 +16,7 @@ package coredata
 
 import (
 	"errors"
+	"fmt"
 )
 
 var (
@@ -24,3 +25,10 @@ var (
 	ErrResourceInUse             = errors.New("resource is in use")
 	ErrNoDocumentPDFJobAvailable = errors.New("no document PDF job available")
 )
+
+func NewResourceInUseError(table string) error {
+	if table != "" {
+		return fmt.Errorf("%w by table %q", ErrResourceInUse, table)
+	}
+	return ErrResourceInUse
+}

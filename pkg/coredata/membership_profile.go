@@ -1403,6 +1403,11 @@ WHERE
 
 	result, err := conn.Exec(ctx, q, args)
 	if err != nil {
+		if pgErr, ok := errors.AsType[*pgconn.PgError](err); ok {
+			if pgErr.Code == "23503" {
+				return NewResourceInUseError(pgErr.TableName)
+			}
+		}
 		return fmt.Errorf("cannot delete profile: %w", err)
 	}
 
