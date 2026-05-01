@@ -304,10 +304,10 @@ func vendorInfoOutputType() (*agent.OutputType, error) {
 	if err != nil {
 		return nil, fmt.Errorf("cannot create vendor info output type: %w", err)
 	}
-	if err := outputType.DecorateEnum(map[string][]string{
-		"category":    vendorCategoryEnum,
-		"vendor_type": vendorTypeEnum,
-	}); err != nil {
+	if err := outputType.DecorateEnum("category", vendorCategoryEnum); err != nil {
+		return nil, fmt.Errorf("cannot decorate vendor info schema: %w", err)
+	}
+	if err := outputType.DecorateEnum("vendor_type", vendorTypeEnum); err != nil {
 		return nil, fmt.Errorf("cannot decorate vendor info schema: %w", err)
 	}
 	return outputType, nil
