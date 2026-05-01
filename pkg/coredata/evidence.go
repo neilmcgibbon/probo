@@ -135,7 +135,7 @@ WHERE evidences.state = 'REQUESTED';
 		"type":                             e.Type,
 		"url":                              e.URL,
 		"description":                      e.Description,
-		"assessment":                       e.Assessment.Arg(),
+		"assessment":                       e.Assessment,
 		"assessment_status":                e.AssessmentStatus,
 		"assessment_processing_started_at": e.AssessmentProcessingStartedAt,
 	}
@@ -204,7 +204,7 @@ VALUES (
 		"type":                             e.Type,
 		"url":                              e.URL,
 		"description":                      e.Description,
-		"assessment":                       e.Assessment.Arg(),
+		"assessment":                       e.Assessment,
 		"assessment_status":                e.AssessmentStatus,
 		"assessment_processing_started_at": e.AssessmentProcessingStartedAt,
 	}
@@ -476,7 +476,7 @@ WHERE
 		"evidence_file_id":                 e.EvidenceFileID,
 		"url":                              e.URL,
 		"description":                      e.Description,
-		"assessment":                       e.Assessment.Arg(),
+		"assessment":                       e.Assessment,
 		"assessment_status":                e.AssessmentStatus,
 		"assessment_processing_started_at": e.AssessmentProcessingStartedAt,
 		"updated_at":                       e.UpdatedAt,
