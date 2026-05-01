@@ -49,23 +49,23 @@ type (
 
 	// Config represents the probod application configuration.
 	Config struct {
-		BaseURL           string                  `json:"base-url"`
-		EncryptionKey     string                  `json:"encryption-key"`
-		Pg                PgConfig                `json:"pg"`
-		Api               APIConfig               `json:"api"`
-		Auth              AuthConfig              `json:"auth"`
-		TrustCenter       TrustCenterConfig       `json:"trust-center"`
-		AWS               AWSConfig               `json:"aws"`
-		Notifications     NotificationsConfig     `json:"notifications"`
-		Connectors        []ConnectorConfig       `json:"connectors"`
-		Agents            AgentsConfig            `json:"llm"`
+		BaseURL          string                   `json:"base-url"`
+		EncryptionKey    string                   `json:"encryption-key"`
+		Pg               PgConfig                 `json:"pg"`
+		Api              APIConfig                `json:"api"`
+		Auth             AuthConfig               `json:"auth"`
+		TrustCenter      TrustCenterConfig        `json:"trust-center"`
+		AWS              AWSConfig                `json:"aws"`
+		Notifications    NotificationsConfig      `json:"notifications"`
+		Connectors       []ConnectorConfig        `json:"connectors"`
+		Agents           AgentsConfig             `json:"llm"`
 		EvidenceAssessor EvidenceAssessmentConfig `json:"evidence-assessor"`
-		ChromeDPAddr      string                  `json:"chrome-dp-addr"`
-		SearchEndpoint    string                  `json:"search-endpoint"`
-		CustomDomains     CustomDomainsConfig     `json:"custom-domains"`
-		SCIMBridge        SCIMBridgeConfig        `json:"scim-bridge"`
-		ESign             ESignConfig             `json:"esign"`
-		Branding          bool                    `json:"branding"`
+		ChromeDPAddr     string                   `json:"chrome-dp-addr"`
+		SearchEndpoint   string                   `json:"search-endpoint"`
+		CustomDomains    CustomDomainsConfig      `json:"custom-domains"`
+		SCIMBridge       SCIMBridgeConfig         `json:"scim-bridge"`
+		ESign            ESignConfig              `json:"esign"`
+		Branding         bool                     `json:"branding"`
 	}
 
 	// TrustCenterConfig contains trust center server configuration.
