@@ -135,7 +135,6 @@ FROM
 WHERE
 	%s
 	AND vendor_id = @vendor_id
-	AND snapshot_id IS NULL
 	AND %s
 `
 	q = fmt.Sprintf(q, scope.SQLFragment(), cursor.SQLFragment())
@@ -187,7 +186,6 @@ FROM
 WHERE
 	%s
 	AND vendor_id = ANY(@vendor_ids)
-	AND snapshot_id IS NULL
 ORDER BY
 	vendor_id, name ASC
 `
@@ -280,7 +278,6 @@ SET
 WHERE
 	%s
 	AND id = @vendor_service_id
-	AND snapshot_id IS NULL
 `
 
 	q = fmt.Sprintf(q, scope.SQLFragment())
@@ -312,7 +309,6 @@ DELETE FROM
 WHERE
 	%s
 	AND id = @vendor_service_id
-	AND snapshot_id IS NULL
 `
 
 	q = fmt.Sprintf(q, scope.SQLFragment())

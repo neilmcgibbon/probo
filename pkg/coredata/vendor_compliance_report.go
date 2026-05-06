@@ -91,7 +91,6 @@ FROM
 WHERE
 	%s
 	AND vendor_id = @vendor_id
-	AND snapshot_id IS NULL
 	AND %s
 `
 
@@ -143,7 +142,6 @@ FROM
 WHERE
 	%s
 	AND vendor_id = ANY(@vendor_ids)
-	AND snapshot_id IS NULL
 ORDER BY
 	vendor_id, report_date DESC
 `
@@ -279,7 +277,6 @@ FROM
 WHERE
 	%s
 	AND id = @id
-	AND snapshot_id IS NULL
 RETURNING report_file_id
 `
 

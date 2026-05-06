@@ -189,7 +189,6 @@ FROM
 WHERE
     %s
     AND vendor_id = @vendor_id
-    AND snapshot_id IS NULL
 ORDER BY
     created_at DESC
 LIMIT 1;
@@ -240,7 +239,6 @@ FROM
 WHERE
     %s
     AND vendor_id = @vendor_id
-    AND snapshot_id IS NULL
 	AND %s
 `
 
@@ -292,7 +290,6 @@ FROM
 WHERE
     %s
     AND vendor_id = ANY(@vendor_ids)
-    AND snapshot_id IS NULL
 ORDER BY
     vendor_id, created_at DESC
 `

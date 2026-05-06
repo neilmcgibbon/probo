@@ -22,7 +22,6 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgconn"
 	"go.gearno.de/kit/pg"
 	"go.probo.inc/probo/pkg/gid"
 	"go.probo.inc/probo/pkg/page"
@@ -89,7 +88,6 @@ FROM
 WHERE
 	%s
 	AND vendor_id = @vendor_id
-	AND snapshot_id IS NULL
 LIMIT 1;
 `
 
@@ -139,7 +137,6 @@ FROM
 WHERE
 	%s
 	AND vendor_id = ANY(@vendor_ids)
-	AND snapshot_id IS NULL
 `
 
 	q = fmt.Sprintf(q, scope.SQLFragment())
@@ -227,7 +224,6 @@ SET
 WHERE
 	%s
 	AND id = @id
-	AND snapshot_id IS NULL
 `
 
 	q = fmt.Sprintf(q, scope.SQLFragment())
@@ -299,12 +295,6 @@ ON CONFLICT (organization_id, vendor_id) DO UPDATE SET
 
 	_, err := conn.Exec(ctx, q, args)
 	if err != nil {
-		var pgErr *pgconn.PgError
-		if errors.As(err, &pgErr) {
-			if pgErr.Code == "23505" && pgErr.ConstraintName == "vendor_data_privacy_agreements_source_id_snapshot_id_key" {
-				return ErrResourceAlreadyExists
-			}
-		}
 		return fmt.Errorf("cannot upsert vendor data privacy agreement: %w", err)
 	}
 	return nil
@@ -322,7 +312,6 @@ FROM
 WHERE
 	%s
 	AND id = @id
-	AND snapshot_id IS NULL
 `
 
 	q = fmt.Sprintf(q, scope.SQLFragment())
