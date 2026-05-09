@@ -34,7 +34,7 @@ type Organization struct {
 // ListGitHubOrganizations fetches the organizations the authenticated
 // GitHub user belongs to.
 func ListGitHubOrganizations(ctx context.Context, httpClient *http.Client) ([]Organization, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://api.github.com/user/orgs", nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://api.github.com/user/orgs?per_page=100", nil)
 	if err != nil {
 		return nil, fmt.Errorf("cannot create github organizations request: %w", err)
 	}
