@@ -25,6 +25,7 @@ import (
 	admin "google.golang.org/api/admin/directory/v1"
 	"google.golang.org/api/option"
 
+	"go.probo.inc/probo/pkg/connector"
 	"go.probo.inc/probo/pkg/coredata"
 )
 
@@ -1032,36 +1033,14 @@ func (r *vercelNameResolver) ResolveInstanceName(ctx context.Context) (string, e
 
 	// Personal-account fallback: /v2/teams/<uid> returns 404, but
 	// /v2/user works with the same Bearer token.
-	userReq, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://api.vercel.com/v2/user", nil)
+	user, err := connector.FetchVercelUser(ctx, r.httpClient)
 	if err != nil {
-		return "", fmt.Errorf("cannot create vercel user request: %w", err)
+		return "", err
 	}
-	userReq.Header.Set("Accept", "application/json")
-
-	userResp, err := r.httpClient.Do(userReq)
-	if err != nil {
-		return "", fmt.Errorf("cannot execute vercel user request: %w", err)
+	if user.Username != "" {
+		return user.Username, nil
 	}
-	defer func() { _ = userResp.Body.Close() }()
-
-	if userResp.StatusCode < 200 || userResp.StatusCode >= 300 {
-		return "", fmt.Errorf("cannot fetch vercel user: unexpected status %d", userResp.StatusCode)
-	}
-
-	var userBody struct {
-		User struct {
-			Username string `json:"username"`
-			Name     string `json:"name"`
-		} `json:"user"`
-	}
-	if err := json.NewDecoder(userResp.Body).Decode(&userBody); err != nil {
-		return "", fmt.Errorf("cannot decode vercel user response: %w", err)
-	}
-
-	if userBody.User.Username != "" {
-		return userBody.User.Username, nil
-	}
-	return userBody.User.Name, nil
+	return user.Name, nil
 }
 
 // mondayNameResolver resolves the Monday.com account name via GraphQL.
