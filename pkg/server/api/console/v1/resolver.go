@@ -272,7 +272,6 @@ func handleConnectorOAuth2Error(
 	query url.Values,
 ) {
 	oauthErr := query.Get("error")
-	oauthErrDesc := query.Get("error_description")
 
 	provider := "unknown"
 	redirectURL := baseURL.String()
@@ -287,18 +286,17 @@ func handleConnectorOAuth2Error(
 		}
 	}
 
+	// Provider error_description fields routinely carry PII (user emails,
+	// account names) and must never reach logs or the client redirect URL.
+	// Forward only the standardized error code.
 	logger.WarnCtx(r.Context(), "OAuth2 callback returned error",
 		log.String("provider", provider),
 		log.String("error", oauthErr),
-		log.String("error_description", oauthErrDesc),
 	)
 
 	parsedURL, _ := url.Parse(redirectURL)
 	q := parsedURL.Query()
 	q.Set("error", oauthErr)
-	if oauthErrDesc != "" {
-		q.Set("error_description", oauthErrDesc)
-	}
 	parsedURL.RawQuery = q.Encode()
 
 	safeRedirect.Redirect(w, r, parsedURL.String(), "/", http.StatusSeeOther)
