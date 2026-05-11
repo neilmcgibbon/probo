@@ -31,6 +31,7 @@ import { ViewerLayoutLoading } from "./pages/iam/memberships/ViewerLayoutLoading
 import { peopleRoutes } from "./pages/iam/organizations/people/routes";
 import { compliancePageRoutes } from "./pages/organizations/compliance-page/routes";
 import { cookieBannerRoutes } from "./pages/organizations/cookie-banners/routes";
+import { riskAssessmentRoutes } from "./pages/organizations/risk-assessments/routes";
 import { CurrentUser } from "./providers/CurrentUser";
 import { accessReviewRoutes } from "./routes/accessReviewRoutes";
 import { assetRoutes } from "./routes/assetRoutes";
@@ -289,6 +290,7 @@ const routes = [
           },
           ...peopleRoutes,
           ...riskRoutes,
+          ...riskAssessmentRoutes,
           ...measureRoutes,
           ...documentsRoutes,
           ...thirdPartyRoutes,

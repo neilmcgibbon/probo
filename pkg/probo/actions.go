@@ -396,6 +396,48 @@ const (
 	ActionCookieCategoryUpdate = "core:cookie-category:update"
 	ActionCookieCategoryDelete = "core:cookie-category:delete"
 
+	// RiskAssessment actions
+	ActionRiskAssessmentGet    = "core:risk-assessment:get"
+	ActionRiskAssessmentList   = "core:risk-assessment:list"
+	ActionRiskAssessmentCreate = "core:risk-assessment:create"
+	ActionRiskAssessmentUpdate = "core:risk-assessment:update"
+	ActionRiskAssessmentDelete = "core:risk-assessment:delete"
+
+	// RiskAssessmentScope actions
+	ActionRiskAssessmentScopeGet    = "core:risk-assessment-scope:get"
+	ActionRiskAssessmentScopeList   = "core:risk-assessment-scope:list"
+	ActionRiskAssessmentScopeCreate = "core:risk-assessment-scope:create"
+	ActionRiskAssessmentScopeUpdate = "core:risk-assessment-scope:update"
+	ActionRiskAssessmentScopeDelete = "core:risk-assessment-scope:delete"
+
+	// RiskAssessmentNode actions
+	ActionRiskAssessmentNodeGet    = "core:risk-assessment-node:get"
+	ActionRiskAssessmentNodeList   = "core:risk-assessment-node:list"
+	ActionRiskAssessmentNodeCreate = "core:risk-assessment-node:create"
+	ActionRiskAssessmentNodeUpdate = "core:risk-assessment-node:update"
+	ActionRiskAssessmentNodeDelete = "core:risk-assessment-node:delete"
+
+	// RiskAssessmentProcess actions
+	ActionRiskAssessmentProcessGet    = "core:risk-assessment-process:get"
+	ActionRiskAssessmentProcessList   = "core:risk-assessment-process:list"
+	ActionRiskAssessmentProcessCreate = "core:risk-assessment-process:create"
+	ActionRiskAssessmentProcessUpdate = "core:risk-assessment-process:update"
+	ActionRiskAssessmentProcessDelete = "core:risk-assessment-process:delete"
+
+	// RiskAssessmentThreat actions
+	ActionRiskAssessmentThreatGet    = "core:risk-assessment-threat:get"
+	ActionRiskAssessmentThreatList   = "core:risk-assessment-threat:list"
+	ActionRiskAssessmentThreatCreate = "core:risk-assessment-threat:create"
+	ActionRiskAssessmentThreatUpdate = "core:risk-assessment-threat:update"
+	ActionRiskAssessmentThreatDelete = "core:risk-assessment-threat:delete"
+
+	// RiskScenario actions
+	ActionRiskScenarioGet    = "core:risk-scenario:get"
+	ActionRiskScenarioList   = "core:risk-scenario:list"
+	ActionRiskScenarioCreate = "core:risk-scenario:create"
+	ActionRiskScenarioUpdate = "core:risk-scenario:update"
+	ActionRiskScenarioDelete = "core:risk-scenario:delete"
+
 	// Cookie actions
 	ActionCookieGet    = "core:cookie:get"
 	ActionCookieList   = "core:cookie:list"

@@ -22,20 +22,21 @@ import { Fragment } from "react";
 import { loadQuery } from "react-relay";
 import { redirect } from "react-router";
 
-import type { RiskGraphListQuery } from "#/__generated__/core/RiskGraphListQuery.graphql";
-import type { RiskGraphNodeQuery } from "#/__generated__/core/RiskGraphNodeQuery.graphql";
+import type { RiskDetailPageQuery } from "#/__generated__/core/RiskDetailPageQuery.graphql";
+import type { RisksPageQuery } from "#/__generated__/core/RisksPageQuery.graphql";
 import { LinkCardSkeleton } from "#/components/skeletons/LinkCardSkeleton";
 import { PageSkeleton } from "#/components/skeletons/PageSkeleton";
 import { RisksPageSkeleton } from "#/components/skeletons/RisksPageSkeleton";
 import { coreEnvironment } from "#/environments";
-import { riskNodeQuery, risksQuery } from "#/hooks/graph/RiskGraph";
+import { riskDetailPageQuery } from "#/pages/organizations/risks/RiskDetailPage";
+import { risksPageQuery } from "#/pages/organizations/risks/RisksPage";
 
 export const riskRoutes = [
   {
     path: "risks",
     Fallback: RisksPageSkeleton,
     loader: loaderFromQueryLoader(({ organizationId }) =>
-      loadQuery<RiskGraphListQuery>(coreEnvironment, risksQuery, {
+      loadQuery<RisksPageQuery>(coreEnvironment, risksPageQuery, {
         organizationId: organizationId,
       }),
     ),
@@ -47,7 +48,7 @@ export const riskRoutes = [
     path: "risks/:riskId",
     Fallback: PageSkeleton,
     loader: loaderFromQueryLoader(({ riskId }) =>
-      loadQuery<RiskGraphNodeQuery>(coreEnvironment, riskNodeQuery, {
+      loadQuery<RiskDetailPageQuery>(coreEnvironment, riskDetailPageQuery, {
         riskId: riskId,
       }),
     ),
@@ -97,6 +98,14 @@ export const riskRoutes = [
         Component: lazy(
           () =>
             import("#/pages/organizations/risks/tabs/RiskObligationsTab"),
+        ),
+      },
+      {
+        path: "scenarios",
+        Fallback: LinkCardSkeleton,
+        Component: lazy(
+          () =>
+            import("#/pages/organizations/risks/tabs/RiskScenariosTab"),
         ),
       },
     ],

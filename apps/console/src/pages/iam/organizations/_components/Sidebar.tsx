@@ -34,6 +34,7 @@ import {
   IconShield,
   IconStore,
   IconTodo,
+  IconWarning,
   SidebarItem,
 } from "@probo/ui";
 import { useFragment } from "react-relay";
@@ -48,6 +49,7 @@ const fragment = graphql`
         canListTasks: permission(action: "core:task:list")
         canListMeasures: permission(action: "core:measure:list")
         canListRisks: permission(action: "core:risk:list")
+        canListRiskAssessments: permission(action: "core:risk-assessment:list")
         canListFrameworks: permission(action: "core:framework:list")
         canListMembers: permission(action: "iam:membership:list")
         canListThirdParties: permission(action: "core:thirdParty:list")
@@ -111,6 +113,13 @@ export function Sidebar(props: { fKey: SidebarFragment$key }) {
           label={__("Risks")}
           icon={IconFire3}
           to={`${prefix}/risks`}
+        />
+      )}
+      {organization.canListRiskAssessments && (
+        <SidebarItem
+          label={__("Risk Assessments")}
+          icon={IconWarning}
+          to={`${prefix}/risk-assessments`}
         />
       )}
       {organization.canListFrameworks && (

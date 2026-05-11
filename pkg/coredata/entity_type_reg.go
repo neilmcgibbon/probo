@@ -116,6 +116,12 @@ const (
 	DetectedTrackerEntityType                      uint16 = 90
 	TrackerResourceEntityType                      uint16 = 91
 	CommonThirdPartyEntityType                     uint16 = 92
+	RiskAssessmentEntityType                       uint16 = 93
+	RiskAssessmentNodeEntityType                   uint16 = 94
+	RiskAssessmentProcessEntityType                uint16 = 95
+	RiskAssessmentThreatEntityType                 uint16 = 96
+	RiskAssessmentScopeEntityType                  uint16 = 97
+	RiskScenarioEntityType                         uint16 = 98
 )
 
 func NewEntityFromID(id gid.GID) (any, bool) {
@@ -290,6 +296,18 @@ func NewEntityFromID(id gid.GID) (any, bool) {
 		return &TrackerResource{ID: id}, true
 	case CommonThirdPartyEntityType:
 		return &CommonThirdParty{ID: id}, true
+	case RiskAssessmentEntityType:
+		return &RiskAssessment{ID: id}, true
+	case RiskAssessmentNodeEntityType:
+		return &RiskAssessmentNode{ID: id}, true
+	case RiskAssessmentProcessEntityType:
+		return &RiskAssessmentProcess{ID: id}, true
+	case RiskAssessmentThreatEntityType:
+		return &RiskThreat{ID: id}, true
+	case RiskAssessmentScopeEntityType:
+		return &RiskAssessmentScope{ID: id}, true
+	case RiskScenarioEntityType:
+		return &RiskScenario{ID: id}, true
 	default:
 		return nil, false
 	}

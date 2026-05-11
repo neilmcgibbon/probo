@@ -448,6 +448,28 @@ func (r *riskResolver) Obligations(ctx context.Context, obj *types.Risk, first *
 	return types.NewObligationConnection(page, r, obj.ID), nil
 }
 
+// Scenarios is the resolver for the scenarios field.
+func (r *riskResolver) Scenarios(ctx context.Context, obj *types.Risk, first *int, after *page.CursorKey, last *int, before *page.CursorKey, orderBy *types.RiskScenarioOrderBy) (*types.RiskScenarioConnection, error) {
+	if err := r.authorize(ctx, obj.ID, probo.ActionRiskScenarioList); err != nil {
+		return nil, err
+	}
+	scope := coredata.NewScopeFromObjectID(obj.ID)
+	pageOrderBy := page.OrderBy[coredata.RiskScenarioOrderField]{
+		Field:     coredata.RiskScenarioOrderFieldCreatedAt,
+		Direction: page.OrderDirectionDesc,
+	}
+	if orderBy != nil {
+		pageOrderBy = page.OrderBy[coredata.RiskScenarioOrderField]{Field: orderBy.Field, Direction: orderBy.Direction}
+	}
+	cursor := types.NewCursor(first, after, last, before, pageOrderBy)
+	p, err := r.riskManagement.ListScenariosForRiskID(ctx, scope, obj.ID, cursor)
+	if err != nil {
+		r.logger.ErrorCtx(ctx, "cannot list risk scenarios", log.Error(err))
+		return nil, gqlutils.Internal(ctx)
+	}
+	return types.NewRiskScenarioConnection(p, r, obj.ID), nil
+}
+
 // Permission is the resolver for the permission field.
 func (r *riskResolver) Permission(ctx context.Context, obj *types.Risk, action string) (bool, error) {
 	return r.Resolver.Permission(ctx, obj, action)
