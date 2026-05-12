@@ -209,20 +209,21 @@ func UploadStaticAssets(ctx context.Context, s3Client *s3.Client, staticAssetsBu
 }
 
 const (
-	subjectConfirmEmail                      = "Confirm your email address"
-	subjectPasswordReset                     = "Reset your password"
-	subjectInvitation                        = "Invitation to join %s on Probo"
-	subjectDocumentApproval                  = "Action Required – Please review and approve %s"
-	subjectDocumentSigning                   = "Action Required – Please review and sign %s compliance documents"
-	subjectDocumentExport                    = "Your document export is ready"
-	subjectFrameworkExport                   = "Your framework export is ready"
-	subjectTrustCenterAccess                 = "Compliance Page Access Invitation - %s"
-	subjectTrustCenterDocumentAccessRejected = "Compliance Page Document Access Rejected - %s"
-	subjectMagicLink                         = "Connect to %s"
-	subjectElectronicSignatureCertificate    = "Your signed %s - Certificate of Completion"
-	subjectMailingListSubscription           = "%s – Confirm Your Compliance Updates Subscription"
-	subjectMailingListUnsubscription         = "%s – You've been unsubscribed"
-	subjectMailingListUpdates                = "%s – %s"
+	subjectConfirmEmail                           = "Confirm your email address"
+	subjectPasswordReset                          = "Reset your password"
+	subjectInvitation                             = "Invitation to join %s on Probo"
+	subjectDocumentApproval                       = "Action Required – Please review and approve %s"
+	subjectDocumentSigning                        = "Action Required – Please review and sign %s compliance documents"
+	subjectDocumentExport                         = "Your document export is ready"
+	subjectFrameworkExport                        = "Your framework export is ready"
+	subjectTrustCenterAccess                      = "Compliance Page Access Invitation - %s"
+	subjectTrustCenterDocumentAccessRejected      = "Compliance Page Document Access Rejected - %s"
+	subjectMagicLink                              = "Connect to %s"
+	subjectElectronicSignatureCertificate         = "Your signed %s - Certificate of Completion"
+	subjectElectronicSignatureCertificateApproval = "Your approval of %s has been signed - Certificate of Completion"
+	subjectMailingListSubscription                = "%s – Confirm Your Compliance Updates Subscription"
+	subjectMailingListUnsubscription              = "%s – You've been unsubscribed"
+	subjectMailingListUpdates                     = "%s – %s"
 )
 
 var (
@@ -514,7 +515,7 @@ func (p *Presenter) RenderMagicLink(ctx context.Context, magicLinkUrlPath string
 	return fmt.Sprintf(subjectMagicLink, organizationName), textBody, htmlBody, err
 }
 
-func (p *Presenter) RenderElectronicSignatureCertificate(ctx context.Context, signerName string, documentName string) (subject string, textBody string, htmlBody *string, err error) {
+func (p *Presenter) RenderElectronicSignatureCertificate(ctx context.Context, signerName string, documentName string, isApproval bool) (subject string, textBody string, htmlBody *string, err error) {
 	vars, err := p.getCommonVariables(ctx)
 	if err != nil {
 		return "", "", nil, fmt.Errorf("cannot get common variables: %w", err)
@@ -524,14 +525,21 @@ func (p *Presenter) RenderElectronicSignatureCertificate(ctx context.Context, si
 		*CommonVariables
 		SignerName   string
 		DocumentName string
+		IsApproval   bool
 	}{
 		CommonVariables: vars,
 		SignerName:      signerName,
 		DocumentName:    documentName,
+		IsApproval:      isApproval,
 	}
 
 	textBody, htmlBody, err = renderEmail(electronicSignatureCertificateTextTemplate, electronicSignatureCertificateHTMLTemplate, data)
-	return fmt.Sprintf(subjectElectronicSignatureCertificate, documentName), textBody, htmlBody, err
+
+	subjectFmt := subjectElectronicSignatureCertificate
+	if isApproval {
+		subjectFmt = subjectElectronicSignatureCertificateApproval
+	}
+	return fmt.Sprintf(subjectFmt, documentName), textBody, htmlBody, err
 }
 
 func (p *Presenter) RenderMailingListSubscription(ctx context.Context, organizationName string, confirmURL string, unsubscribeURL string) (subject string, textBody string, htmlBody *string, err error) {

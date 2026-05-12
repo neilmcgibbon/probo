@@ -189,6 +189,7 @@ func (h *completionCertificateHandler) generateCertificate(
 		events       = coredata.ElectronicSignatureEvents{}
 		signedFile   = coredata.File{}
 		organization = coredata.Organization{}
+		isApproval   bool
 	)
 
 	if err := h.pg.WithConn(
@@ -204,6 +205,13 @@ func (h *completionCertificateHandler) generateCertificate(
 
 			if err := organization.LoadByID(ctx, conn, scope, signature.OrganizationID); err != nil {
 				return fmt.Errorf("cannot load organization: %w", err)
+			}
+
+			decision := &coredata.DocumentVersionApprovalDecision{}
+			var err error
+			isApproval, err = decision.ExistsForElectronicSignatureID(ctx, conn, scope, signature.ID)
+			if err != nil {
+				return fmt.Errorf("cannot check approval decision link: %w", err)
 			}
 
 			return nil
@@ -267,7 +275,7 @@ func (h *completionCertificateHandler) generateCertificate(
 	if docName == "" {
 		docName = signature.DocumentType.DisplayName()
 	}
-	subject, textBody, htmlBody, err := emailPresenter.RenderElectronicSignatureCertificate(ctx, ref.UnrefOrZero(signature.SignerFullName), docName)
+	subject, textBody, htmlBody, err := emailPresenter.RenderElectronicSignatureCertificate(ctx, ref.UnrefOrZero(signature.SignerFullName), docName, isApproval)
 	if err != nil {
 		return nil, nil, fmt.Errorf("cannot render email: %w", err)
 	}

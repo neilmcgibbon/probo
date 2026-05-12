@@ -116,6 +116,33 @@ WHERE
 	return nil
 }
 
+func (d *DocumentVersionApprovalDecision) ExistsForElectronicSignatureID(
+	ctx context.Context,
+	conn pg.Querier,
+	scope Scoper,
+	signatureID gid.GID,
+) (bool, error) {
+	q := `
+SELECT EXISTS (
+	SELECT 1
+	FROM document_version_approval_decisions
+	WHERE %s AND electronic_signature_id = @signature_id
+)
+`
+
+	q = fmt.Sprintf(q, scope.SQLFragment())
+
+	args := pgx.StrictNamedArgs{"signature_id": signatureID}
+	maps.Copy(args, scope.SQLArguments())
+
+	var exists bool
+	if err := conn.QueryRow(ctx, q, args).Scan(&exists); err != nil {
+		return false, fmt.Errorf("cannot check approval decision existence for signature: %w", err)
+	}
+
+	return exists, nil
+}
+
 func (d *DocumentVersionApprovalDecision) LoadByQuorumIDAndApproverID(
 	ctx context.Context,
 	conn pg.Querier,

@@ -22,12 +22,17 @@ import EmailLayout, {
 export const ElectronicSignatureCertificate = () => {
   return (
     <EmailLayout
-      subject={`Your signed ${"{{.DocumentName}}"} — Certificate of Completion`}
+      subject={`{{if .IsApproval}}Your approval of ${"{{.DocumentName}}"} has been signed{{else}}Your signed ${"{{.DocumentName}}"}{{end}} — Certificate of Completion`}
     >
       <Text style={bodyText}>
+        {"{{if .IsApproval}}"}Your approval of{" "}
+        <strong>{"{{.DocumentName}}"}</strong> has been signed electronically.
+        {"{{else}}"}
         Your <strong>{"{{.DocumentName}}"}</strong> has been signed
-        electronically. A Certificate of Completion is attached to this email
-        as a PDF document.
+        electronically.
+        {"{{end}}"}{" "}
+        A Certificate of Completion is attached to this email as a PDF
+        document.
       </Text>
 
       <Text style={bodyText}>
