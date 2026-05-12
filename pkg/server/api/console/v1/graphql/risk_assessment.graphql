@@ -221,6 +221,8 @@ type RiskAssessmentScope implements Node {
         orderBy: RiskAssessmentThreatOrder
     ): RiskAssessmentThreatConnection! @goField(forceResolver: true)
 
+    mermaidChart: String! @goField(forceResolver: true)
+
     createdAt: Datetime!
     updatedAt: Datetime!
 }

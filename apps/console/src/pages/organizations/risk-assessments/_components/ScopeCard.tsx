@@ -36,6 +36,7 @@ import { CreateThreatDialog } from "./CreateThreatDialog";
 import { NodeActions } from "./NodeActions";
 import { ProcessActions } from "./ProcessActions";
 import { ScopeActions } from "./ScopeActions";
+import { ScopeDiagram } from "./ScopeDiagram";
 import { ThreatActions } from "./ThreatActions";
 
 export const scopeCardFragment = graphql`
@@ -64,6 +65,7 @@ export const scopeCardFragment = graphql`
         node { id processId name category }
       }
     }
+    ...ScopeDiagram_scope
   }
 `;
 
@@ -142,6 +144,16 @@ export function ScopeCard(props: {
 
       {isOpen && (
         <div className="border-t border-border-low px-4 py-4 space-y-6">
+          <div>
+            <div className="mb-3">
+              <h3 className="text-sm font-semibold">{__("Diagram")}</h3>
+              <p className="text-xs text-txt-tertiary mt-1">
+                {__("Visualization of nodes, processes, and threats in this scope.")}
+              </p>
+            </div>
+            <ScopeDiagram scopeKey={scope} />
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div>
               <SectionHeader
