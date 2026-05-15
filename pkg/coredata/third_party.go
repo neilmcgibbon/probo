@@ -1357,7 +1357,7 @@ SELECT
 	created_at,
 	updated_at
 FROM
-	vendors
+	third_parties
 WHERE
 	%s
 	AND organization_id = @organization_id
